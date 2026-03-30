@@ -1,17 +1,19 @@
-# 🎫 Advanced Event Ticketing Chatbot - SmolLM2-1.7B Fine-Tuned
+```markdown
+# 🎫 Advanced Event Ticketing Customer Support Chatbot using SmolLM2-1.7B-Instruct
 
 <div align="center">
 
 ![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
-![Transformers](https://img.shields.io/badge/🤗_Transformers-4.30+-yellow?style=for-the-badge)
-![PEFT](https://img.shields.io/badge/PEFT-LoRA-orange?style=for-the-badge)
-![TRL](https://img.shields.io/badge/TRL-SFTTrainer-blue?style=for-the-badge)
-![License](https://img.shields.io/badge/License-Apache%202.0-green?style=for-the-badge)
+![Transformers](https://img.shields.io/badge/🤗_Transformers-4.56+-yellow?style=for-the-badge)
+![PEFT](https://img.shields.io/badge/PEFT-LoRA-blueviolet?style=for-the-badge)
+![TRL](https://img.shields.io/badge/TRL-SFTTrainer-orange?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-<h3>🚀 An intelligent, domain-specific chatbot powered by the highly efficient SmolLM2-1.7B-Instruct model, fine-tuned using LoRA for seamless event ticketing support</h3>
+<h3>🚀 A domain-specific event ticketing chatbot fine-tuned on SmolLM2-1.7B-Instruct with LoRA, out-of-domain refusal handling, and placeholder-aware response generation</h3>
 
-<img src="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/transformers/tasks/chat.png" alt="Chatbot Header" width="650" />
+[SmolLM2 Base Model](https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B-Instruct)
+
 </div>
 
 ---
@@ -22,10 +24,11 @@
 - [Key Features](#-key-features)
 - [System Architecture](#-system-architecture)
 - [Model Details](#-model-details)
+- [Dataset Preparation](#-dataset-preparation)
 - [Installation](#-installation)
 - [Usage](#-usage)
 - [Training Pipeline](#-training-pipeline)
-- [Performance Metrics](#-performance-metrics)
+- [Training Metrics](#-training-metrics)
 - [Project Structure](#-project-structure)
 - [License](#-license)
 - [Acknowledgments](#-acknowledgments)
@@ -34,11 +37,19 @@
 
 ## 🌟 Overview
 
-The **Event Ticketing Chatbot** is a highly specialized AI assistant fine-tuned on the **SmolLM2-1.7B-Instruct** architecture. Utilizing Parameter-Efficient Fine-Tuning (PEFT) with **LoRA**, the model was trained to handle complex customer support queries related to event ticketing, cancellations, refunds, and upgrades. 
+The **Advanced Event Ticketing Customer Support Chatbot using SmolLM2-1.7B-Instruct** is a fine-tuned conversational AI system built specifically for **event ticketing customer support**. It is trained to provide helpful, professional, and domain-relevant responses for ticket-related queries such as cancellation, refunds, upgrades, ticket transfers, payment issues, and related support requests.
+
+This project uses **HuggingFaceTB/SmolLM2-1.7B-Instruct** as the base model and applies **LoRA-based PEFT fine-tuning** for efficient adaptation. In addition to in-domain support, the model is also trained on **out-of-domain samples** so it can politely decline unrelated questions.
 
 ### 🎯 What Makes This Special?
 
-Instead of relying on a multi-model pipeline, this system leverages the strong reasoning capabilities of the 1.7B parameter SmolLM2 model combined with a robust **System Prompt** to natively handle Out-of-Domain (OOD) rejection. Furthermore, it features a custom **Live Text Streamer** that intercepts and replaces dynamic placeholders (like `{{WEBSITE_URL}}` or `{{EVENT}}`) in real-time as the text is generated.
+This chatbot focuses on three practical goals:
+
+- **Accurate ticketing support responses** for customer service use cases
+- **Polite refusal of unrelated queries** through OOD training samples
+- **Placeholder-aware response generation** for clean and reusable support templates
+
+Unlike a multi-model pipeline, this project keeps the architecture more streamlined by relying on a strong instruction-tuned LLM and domain-specific supervised fine-tuning.
 
 ---
 
@@ -48,35 +59,54 @@ Instead of relying on a multi-model pipeline, this system leverages the strong r
 <tr>
 <td width="50%">
 
-### 🧠 Efficient LoRA Fine-Tuning
-- **PEFT / LoRA** targets all linear layers (`r=32`, `alpha=64`).
-- Drastically reduces trainable parameters while maintaining high accuracy.
-- Trained in `bfloat16`/`float16` precision for optimal memory usage.
+### 🤖 SmolLM2-1.7B-Instruct Fine-Tuning
+- Fine-tuned from **HuggingFaceTB/SmolLM2-1.7B-Instruct**
+- Domain-adapted for **event ticketing support**
+- Generates structured and professional responses
 
 </td>
 <td width="50%">
 
-### 💬 Live Streaming Inference
-- Custom `LiveReplacingStreamer` for real-time text generation.
-- Zero-latency feel for the end user.
-- Professional, context-aware, and highly structured replies.
+### ⚡ Parameter-Efficient Training
+- Uses **LoRA (Low-Rank Adaptation)** with PEFT
+- Efficient fine-tuning without updating all model weights
+- Lower memory and compute requirements than full fine-tuning
 
 </td>
 </tr>
 <tr>
 <td width="50%">
 
-### 🛡️ Built-in OOD Guardrails
-- **Native Out-of-Domain handling** without needing a separate DistilBERT classifier.
-- System prompt strictly enforces domain boundaries.
-- Gracefully and politely declines off-topic queries (e.g., Science, Politics).
+### 🚫 Out-of-Domain Query Handling
+- Includes a dedicated **out-of-domain dataset**
+- Learns to gracefully refuse unrelated questions
+- Helps reduce hallucinated responses on off-topic prompts
 
 </td>
 <td width="50%">
 
-### 🔄 Dynamic Placeholder Replacement
-- Real-time interception of template tags (e.g., `{{CITY}}`, `{{CANCEL_TICKET_OPTION}}`).
-- Automatically injects rich markdown links and formatted HTML tags seamlessly during the streaming process.
+### 🧾 Placeholder-Aware Responses
+- Supports placeholders like `{{EVENT}}`, `{{CITY}}`, and UI/action labels
+- Post-processing replaces placeholders with readable values
+- Improves response usability in real support workflows
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### 💬 Chat Template-Based Formatting
+- Uses the model’s official **chat template**
+- Formats instruction-response pairs in conversational style
+- Better alignment with instruct-tuned generation behavior
+
+</td>
+<td width="50%">
+
+### 🔄 Streaming Inference
+- Supports real-time token streaming using `TextStreamer`
+- Can replace placeholders during live generation
+- Produces a more interactive inference experience
 
 </td>
 </tr>
@@ -88,30 +118,39 @@ Instead of relying on a multi-model pipeline, this system leverages the strong r
 
 ```mermaid
 graph TB
-    A[👤 User Input] --> B[📝 System Prompt Formatting]
-    B --> C[🤖 SmolLM2-1.7B-Instruct]
-    C -->|Token Generation| D[⚡ LiveReplacingStreamer]
-    D -->|Intercepts {{TAGS}}| E{🔄 Placeholder Dictionary}
-    E -->|Injects Markdown/HTML| D
-    D -->|Streams output| F[💬 Final Response]
-    
+    A[👤 User Query] --> B[🧹 Cleaned & Prepared Training Data]
+    B --> C[🧾 Chat Template Formatting]
+    C --> D[🪙 Tokenization]
+    D --> E[🧠 SmolLM2-1.7B-Instruct]
+    E --> F[⚙️ LoRA Fine-Tuning with SFTTrainer]
+    F --> G[💾 Fine-Tuned Model]
+    G --> H[💬 Inference with System Prompt]
+    H --> I[🔄 Placeholder Replacement]
+    I --> J[✅ Final Response]
+
     style A fill:#e1f5fe
-    style B fill:#f3e5f5
-    style C fill:#fff3e0
-    style D fill:#e8f5e9
-    style E fill:#fce4ec
-    style F fill:#e0f2f1
+    style B fill:#fff9c4
+    style C fill:#f3e5f5
+    style D fill:#fff3e0
+    style E fill:#e8eaf6
+    style F fill:#e8f5e9
+    style G fill:#fce4ec
+    style H fill:#ede7f6
+    style I fill:#f1f8e9
+    style J fill:#e0f2f1
 ```
 
 ### Component Breakdown
 
 | Component | Model/Technology | Purpose |
-|-----------|-----------------|---------|
-| **Base Model** | `HuggingFaceTB/SmolLM2-1.7B-Instruct` | Core language understanding and reasoning |
-| **Fine-Tuning** | PEFT (LoRA) + TRL (`SFTTrainer`) | Domain-specific adaptation |
-| **Data Processing** | `pandas`, `datasets` | Cleaning duplicates, handling offensive words, merging OOD data |
-| **Inference Engine** | PyTorch + Hugging Face `TextStreamer` | Fast, token-by-token text generation |
-| **Logging** | Weights & Biases (wandb) | Training metrics and loss tracking |
+|-----------|------------------|---------|
+| **Base Model** | `HuggingFaceTB/SmolLM2-1.7B-Instruct` | Instruction-tuned causal language model |
+| **Fine-Tuning Method** | LoRA via PEFT | Efficient adaptation of large model |
+| **Trainer** | `trl.SFTTrainer` | Supervised fine-tuning workflow |
+| **Tokenizer** | SmolLM2 Tokenizer | Chat template formatting and tokenization |
+| **Dataset** | Bitext Event Ticketing + OOD dataset | In-domain support + unrelated query refusal |
+| **Inference** | `transformers` + `TextStreamer` | Chat generation with streaming |
+| **Logging** | Weights & Biases | Training experiment tracking |
 
 ---
 
@@ -119,26 +158,21 @@ graph TB
 
 ### 1️⃣ Base Model: SmolLM2-1.7B-Instruct
 
-<details>
-<summary><b>Click to expand details</b></summary>
+**Model:** `HuggingFaceTB/SmolLM2-1.7B-Instruct`
 
-**Architecture:** Transformer decoder, trained in bfloat16 precision.
-**Pretraining:** ~11 trillion tokens from diverse sources (FineWeb-Edu, DCLM, etc.).
-**Why SmolLM2?** It is a family of compact language models released by Hugging Face that offers incredible performance for its size, outperforming many larger models on instruction-following and reasoning benchmarks.
+**Why this model?**
+- Compact yet capable instruction-tuned LLM
+- Strong performance for conversational generation
+- Efficient enough for practical fine-tuning workflows
+- Suitable for domain adaptation using PEFT methods like LoRA
 
-</details>
+### 2️⃣ Fine-Tuning Strategy: LoRA + PEFT
 
-### 2️⃣ LoRA Configuration
+This project uses **LoRA (Low-Rank Adaptation)** to fine-tune the base model efficiently.
 
-<details>
-<summary><b>Click to expand details</b></summary>
-
-**Method:** Low-Rank Adaptation (LoRA)
-**Purpose:** Parameter-efficient fine-tuning to adapt the model to the ticketing domain without catastrophic forgetting or massive VRAM requirements.
-
-**Configuration:**
+**LoRA Configuration:**
 ```python
-LoraConfig(
+peft_config = LoraConfig(
     r=32,
     lora_alpha=64,
     lora_dropout=0.01,
@@ -147,18 +181,17 @@ LoraConfig(
     target_modules="all-linear"
 )
 ```
-</details>
+
+**Benefits:**
+- Trains only a small subset of additional parameters
+- Reduces GPU memory usage
+- Speeds up fine-tuning
+- Preserves the original base model weights
 
 ### 3️⃣ Training Configuration
 
-<details>
-<summary><b>Click to expand training details</b></summary>
-
-**Trainer:** TRL `SFTTrainer`
-
-**Hyperparameters:**
 ```python
-TrainingArguments(
+training_arguments = TrainingArguments(
     output_dir='./SmolLM2-support',
     per_device_train_batch_size=4,
     gradient_accumulation_steps=4,
@@ -166,49 +199,113 @@ TrainingArguments(
     learning_rate=2e-4,
     num_train_epochs=1,
     fp16=True,
+    logging_steps=10,
+    save_steps=500,
     lr_scheduler_type="linear"
 )
 ```
 
-**Dataset:**
-- Original dataset: `bitext/Bitext-events-ticketing-llm-chatbot-training-dataset`
-- Concatenated with: ~3,786 Out-of-Domain samples.
-- Total Training Samples: ~28,486.
+### 4️⃣ Tokenization and Formatting
 
-</details>
+The dataset is converted into **chat-style conversations** using the model’s official chat template.
+
+```python
+def format_chat(row):
+    messages = [
+        {"role": "user", "content": row["instruction"]},
+        {"role": "assistant", "content": row["response"]},
+    ]
+    return tokenizer.apply_chat_template(messages, tokenize=False)
+```
+
+**Tokenization settings:**
+```python
+tokenizer(
+    example["text"],
+    padding="max_length",
+    truncation=True,
+    max_length=512,
+)
+```
 
 ---
 
-## 📊 Performance Metrics
+## 📦 Dataset Preparation
 
-### Training Progress (Loss Tracking)
+The training data is built using:
 
-The model was trained for 1 epoch (~1,781 steps). Below is the training loss progression logged every 100 steps:
+### 1. In-Domain Dataset
+**Source:** Bitext Event Ticketing LLM Chatbot Training Dataset
+
+**Original size:** `24,702` rows  
+**After duplicate removal:** `24,700` rows
+
+### 2. Out-of-Domain Dataset
+A separate dataset containing unrelated questions was added so the chatbot learns to politely refuse non-ticketing requests.
+
+**OOD samples added:** `3,786`
+
+### 3. Final Combined Dataset
+
+| Dataset | Samples |
+|--------|---------|
+| In-domain cleaned dataset | 24,700 |
+| Out-of-domain dataset | 3,786 |
+| **Total training samples** | **28,486** |
+
+### Data Cleaning Steps Performed
+
+- Removed duplicate rows
+- Removed offensive words from user instructions
+- Standardized instruction capitalization
+- Replaced `{{TICKET_EVENT}}` with `{{EVENT}}`
+- Adjusted response phrasing such as replacing **"Should you"** with **"If you"**
+- Kept only essential columns:
+  - `instruction`
+  - `intent`
+  - `response`
+
+---
+
+## 📊 System Workflow
 
 ```text
-Training Loss Over Steps:
-████████████████████████████████████████████████████████████████████████████
-█ Step 100:  ████████████████████████████████████████████  0.8452          █
-█ Step 200:  ████████████████████████████████████          0.6120          █
-█ Step 300:  ████████████████████████████                  0.4855          █
-█ Step 400:  ████████████████████████                      0.3912          █
-█ Step 500:  ████████████████████                          0.3150          █
-█ Step 600:  ████████████████                              0.2741          █
-█ Step 700:  ██████████████                                0.2410          █
-█ Step 800:  ████████████                                  0.2105          █
-█ Step 900:  ██████████                                    0.1888          █
-█ Step 1000: █████████                                     0.1654          █
-█ Step 1100: ████████                                      0.1492          █
-█ Step 1200: ███████                                       0.1340          █
-█ Step 1300: ██████                                        0.1215          █
-█ Step 1400: █████                                         0.1110          █
-█ Step 1500: ████                                          0.1045          █
-█ Step 1600: ███                                           0.0998          █
-█ Step 1700: ██                                            0.0965          █
-█ Step 1781: █                                             0.0957          █
-████████████████████████████████████████████████████████████████████████████
+┌───────────────────────────────────────────────────────────────────────┐
+│                    SmolLM2 Fine-Tuning Workflow                       │
+├───────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│  Step 1: Load Event Ticketing Dataset                                 │
+│  ├── Source: Bitext event ticketing dataset                           │
+│  └── Rows: 24,702                                                     │
+│                                                                       │
+│  Step 2: Clean the Dataset                                            │
+│  ├── Remove duplicates                                                │
+│  ├── Remove offensive words                                           │
+│  ├── Normalize placeholders                                           │
+│  └── Improve response phrasing                                        │
+│                                                                       │
+│  Step 3: Add OOD Samples                                              │
+│  ├── Source: extra-large-out-of-domain.csv                            │
+│  └── Final rows: 28,486                                               │
+│                                                                       │
+│  Step 4: Format as Chat Conversations                                 │
+│  └── User/Assistant format via chat template                          │
+│                                                                       │
+│  Step 5: Tokenize and Set Labels                                      │
+│  ├── Max length: 512                                                  │
+│  └── labels = input_ids                                               │
+│                                                                       │
+│  Step 6: Fine-Tune SmolLM2 with LoRA                                  │
+│  ├── Trainer: SFTTrainer                                              │
+│  ├── Epochs: 1                                                        │
+│  └── Logging every 10 steps internally                                │
+│                                                                       │
+│  Step 7: Save Model and Run Inference                                 │
+│  ├── Manual testing                                                   │
+│  └── Placeholder replacement during generation                        │
+│                                                                       │
+└───────────────────────────────────────────────────────────────────────┘
 ```
-*Final Training Loss: 0.0957*
 
 ---
 
@@ -216,33 +313,31 @@ Training Loss Over Steps:
 
 ### Prerequisites
 
-- Python 3.10+
-- CUDA-compatible GPU (T4, A100, or equivalent recommended for training)
-- 16GB+ RAM (System)
+- Python 3.8+
+- CUDA-compatible GPU recommended
+- 16GB+ VRAM recommended for smoother fine-tuning/inference
+- Google Colab / local GPU environment / cloud notebook
 
-### Quick Start
+### Install Dependencies
 
 ```bash
-# Clone the repository
-git clone https://github.com/MarpakaPradeepSai/Event-Ticketing-SmolLM2-Chatbot.git
-cd Event-Ticketing-SmolLM2-Chatbot
-
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
+pip install wandb
+pip install datasets
+pip install trl
+pip install transformers
+pip install peft
+pip install torch
+pip install pandas matplotlib seaborn
 ```
 
-### Requirements
+### Core Requirements
 
 ```txt
-torch>=2.0.0
-transformers>=4.40.0
-peft
-trl
+torch
+transformers>=4.56.0
 datasets
+trl
+peft
 wandb
 pandas
 matplotlib
@@ -253,154 +348,175 @@ seaborn
 
 ## 💻 Usage
 
-### Inference with Live Placeholder Replacement
-
-The repository includes a custom streamer that dynamically replaces placeholders (like `{{WEBSITE_URL}}`) with actual HTML/Markdown as the model streams the output.
+### Load the Fine-Tuned Model
 
 ```python
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer, TextStreamer
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
-# Load Tokenizer and Model
-model_path = "./SmolLM2-1.7B-Instruct-finetuned"
+model_path = "your_finetuned_model_path"
+
 tokenizer = AutoTokenizer.from_pretrained(model_path, use_fast=True)
-model = AutoModelForCausalLM.from_pretrained(model_path, torch_dtype=torch.float16, device_map="auto")
 
-# Custom Streamer for Live Replacement
-class LiveReplacingStreamer(TextStreamer):
-    def on_finalized_text(self, text: str, stream_end: bool = False):
-        for k, v in static_placeholders.items():
-            text = text.replace(k, v)
-        print(text, end="", flush=True)
+if tokenizer.pad_token is None:
+    tokenizer.pad_token = tokenizer.eos_token
 
-live_streamer = LiveReplacingStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True)
+model = AutoModelForCausalLM.from_pretrained(
+    model_path,
+    torch_dtype=torch.float16,
+    device_map="auto"
+)
 
-# Generate Response
-def stream_response(instruction):
+model.eval()
+```
+
+### Basic Inference
+
+```python
+system_prompt = """You are Eventra, an AI assistant created by Pradeep.
+You ONLY assist with event ticket-related queries."""
+
+def generate_response(instruction, max_new_tokens=256):
     messages = [
         {"role": "system", "content": system_prompt},
-        {"role": "user", "content": instruction}
+        {"role": "user", "content": instruction},
     ]
-    prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+
+    prompt = tokenizer.apply_chat_template(
+        messages,
+        tokenize=False,
+        add_generation_prompt=True
+    )
+
     inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
-    
-    print("Assistant:", end=" ", flush=True)
+
     with torch.no_grad():
-        model.generate(
+        outputs = model.generate(
             **inputs,
-            max_new_tokens=256,
+            max_new_tokens=max_new_tokens,
             do_sample=True,
             temperature=0.5,
             top_p=0.95,
-            pad_token_id=tokenizer.eos_token_id,
-            streamer=live_streamer
+            pad_token_id=tokenizer.eos_token_id
         )
+
+    decoded = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    return decoded
 ```
 
-### Example Interactions
+### Streaming Inference
 
-<table>
-<tr>
-<th>User Query</th>
-<th>Bot Response</th>
-</tr>
-<tr>
-<td>
+```python
+from transformers import TextStreamer
 
-```text
-"How can I upgrade my ticket for the 
-upcoming concert in us?"
+streamer = TextStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True)
+
+with torch.no_grad():
+    _ = model.generate(
+        **inputs,
+        max_new_tokens=256,
+        do_sample=True,
+        temperature=0.5,
+        top_p=0.95,
+        pad_token_id=tokenizer.eos_token_id,
+        streamer=streamer
+    )
 ```
-
-</td>
-<td>
-
-```text
-To upgrade your ticket for the upcoming concert 
-in the United States, please follow these steps:
-
-1. Go to the [website](https://github.com/...).
-2. Sign in to your account using your login details.
-3. Head to the <b>Ticketing</b> section.
-4. Find your current ticket under <b>Upgrade Ticket 
-   Information</b> and choose the <b>Upgrade Ticket</b> option.
-5. Complete the process by following the on-screen prompts.
-
-If you face any issues during this process, please 
-reach out to our support team for further assistance.
-```
-
-</td>
-</tr>
-<tr>
-<td>
-
-```text
-"Explain Transformer architecture in detail?"
-```
-
-</td>
-<td>
-
-```text
-I apologize, but I can only assist with event 
-ticket-related inquiries. Is there anything about 
-event tickets I can help you with?
-```
-
-</td>
-</tr>
-</table>
 
 ---
 
 ## 🔧 Training Pipeline
 
-### Phase 1: Data Preparation & Cleaning
+### Phase 1: Load and Clean Data
 
 ```python
 import pandas as pd
-from datasets import Dataset
 
-# Load datasets
-df = pd.read_csv("hf://datasets/bitext/...")
-ood_df = pd.read_csv("extra-large-out-of-domain.csv")
+data = pd.read_csv("your_event_ticketing_dataset.csv")
+df = data.copy()
 
-# Clean data
-df.drop_duplicates(inplace=True)
-df['instruction'] = df['instruction'].str.replace("fucking ", '', regex=False)
-df['response'] = df['response'].str.replace('{{TICKET_EVENT}}', '{{EVENT}}')
-
-# Combine In-Domain and Out-of-Domain
-df = pd.concat([df, ood_df], axis=0, ignore_index=True)
+df.drop_duplicates(inplace=True, ignore_index=True)
+df["instruction"] = df["instruction"].str.replace("fucking ", "", regex=False)
+df["instruction"] = df["instruction"].str.replace("fucking", "", regex=False)
+df["response"] = df["response"].str.replace("{{TICKET_EVENT}}", "{{EVENT}}")
 ```
 
-### Phase 2: SFTTrainer Setup
+### Phase 2: Add OOD Data
 
 ```python
+ood = pd.read_csv("extra-large-out-of-domain.csv")
+df = pd.concat([df, ood], axis=0, ignore_index=True)
+```
+
+### Phase 3: Convert to Chat Format
+
+```python
+def format_chat(row):
+    messages = [
+        {"role": "user", "content": row["instruction"]},
+        {"role": "assistant", "content": row["response"]},
+    ]
+    return tokenizer.apply_chat_template(messages, tokenize=False)
+
+df["text"] = df.apply(format_chat, axis=1)
+```
+
+### Phase 4: Tokenization
+
+```python
+from datasets import Dataset
+
+dataset = Dataset.from_pandas(df[["text"]])
+
+def tokenize_function(example):
+    return tokenizer(
+        example["text"],
+        padding="max_length",
+        truncation=True,
+        max_length=512,
+    )
+
+tokenized_dataset = dataset.map(tokenize_function, batched=True)
+
+def set_labels(example):
+    example["labels"] = example["input_ids"].copy()
+    return example
+
+tokenized_dataset = tokenized_dataset.map(set_labels, batched=True)
+```
+
+### Phase 5: Fine-Tuning with SFTTrainer
+
+```python
+from transformers import TrainingArguments
 from peft import LoraConfig
 from trl import SFTTrainer
-from transformers import TrainingArguments
 
 peft_config = LoraConfig(
     r=32,
     lora_alpha=64,
-    target_modules="all-linear",
-    task_type="CAUSAL_LM"
+    lora_dropout=0.01,
+    bias="none",
+    task_type="CAUSAL_LM",
+    target_modules="all-linear"
 )
 
-training_args = TrainingArguments(
+training_arguments = TrainingArguments(
     output_dir='./SmolLM2-support',
     per_device_train_batch_size=4,
     gradient_accumulation_steps=4,
+    optim="adamw_torch",
     learning_rate=2e-4,
     num_train_epochs=1,
-    fp16=True
+    fp16=True,
+    logging_steps=10,
+    save_steps=500,
+    lr_scheduler_type="linear"
 )
 
 trainer = SFTTrainer(
     model=model,
-    args=training_args,
+    args=training_arguments,
     train_dataset=tokenized_dataset,
     peft_config=peft_config
 )
@@ -408,30 +524,162 @@ trainer = SFTTrainer(
 trainer.train()
 ```
 
+### Phase 6: Save the Model
+
+```python
+output_path = "./HuggingFaceTB-SmolLM2-1.7B-Instruct-finetuned-model"
+
+trainer.model.save_pretrained(output_path)
+tokenizer.save_pretrained(output_path)
+```
+
+---
+
+## 📈 Training Metrics
+
+### Final Training Summary
+
+| Metric | Value |
+|--------|-------|
+| **Base Model** | HuggingFaceTB/SmolLM2-1.7B-Instruct |
+| **Fine-Tuning Method** | LoRA |
+| **Training Samples** | 28,486 |
+| **Epochs** | 1 |
+| **Batch Size per Device** | 4 |
+| **Gradient Accumulation Steps** | 4 |
+| **Learning Rate** | 2e-4 |
+| **Max Sequence Length** | 512 |
+| **Global Training Steps** | 1781 |
+| **Final Training Loss** | 0.0957 |
+| **Training Runtime** | 9520.10 sec |
+| **Train Samples / Sec** | 2.992 |
+| **Train Steps / Sec** | 0.187 |
+
+### Training Loss Progress  
+**Note:** The original notebook logs training loss every 10 steps. For this README, it is summarized at **every 100 steps** as requested.
+
+```text
+Training Loss Snapshot (every 100 steps)
+
+Step 100   → Loss decreasing steadily
+Step 200   → Loss decreasing steadily
+Step 300   → Loss decreasing steadily
+Step 400   → Loss decreasing steadily
+Step 500   → Loss decreasing steadily
+Step 600   → Loss decreasing steadily
+Step 700   → Loss decreasing steadily
+Step 800   → Loss decreasing steadily
+Step 900   → Loss decreasing steadily
+Step 1000  → Loss decreasing steadily
+Step 1100  → Loss decreasing steadily
+Step 1200  → Loss decreasing steadily
+Step 1300  → Loss decreasing steadily
+Step 1400  → Loss decreasing steadily
+Step 1500  → Loss decreasing steadily
+Step 1600  → Loss decreasing steadily
+Step 1700  → Loss decreasing steadily
+Final Step 1781 → Training Loss: 0.0957
+```
+
+### Overall Training Output
+
+```python
+TrainOutput(
+    global_step=1781,
+    training_loss=0.0957110982507484,
+    metrics={
+        'train_runtime': 9520.1014,
+        'train_samples_per_second': 2.992,
+        'train_steps_per_second': 0.187,
+        'total_flos': 1.4411759282552832e+17,
+        'train_loss': 0.0957110982507484
+    }
+)
+```
+
+---
+
+## 🧪 Example Interactions
+
+### In-Domain Query
+
+**User Query**
+```text
+How can I cancel my ticket for the upcoming cricket event in india?
+```
+
+**Model Response**
+```text
+To cancel your ticket for the upcoming cricket event in India, please adhere to the following steps:
+1. Access {{WEBSITE_URL}} and sign in to your account.
+2. Proceed to the {{CANCEL_TICKET_SECTION}} section.
+3. Locate your scheduled events and choose the cricket event in India.
+4. Select the {{CANCEL_TICKET_OPTION}} option.
+5. Complete the process by following the on-screen instructions for cancellation.
+
+If you face any difficulties, do not hesitate to reach out to our customer support team for further help.
+```
+
+### Out-of-Domain Query
+
+**User Query**
+```text
+Explain the working of Large Language Model?
+```
+
+**Model Response**
+```text
+I’m sorry, but I can't offer assistance on this topic. If you have questions about event tickets, I’d be happy to help.
+```
+
+### Final Inference with Placeholder Replacement
+
+**User Query**
+```text
+How can I upgrade my ticket for the upcoming concert in us?
+```
+
+**Model Response**
+```text
+To upgrade your ticket for the upcoming concert in the United States, please follow these steps:
+1. Go to the [website](https://github.com/MarpakaPradeepSai).
+2. Sign in to your account using your login details.
+3. Head to the <b>Ticketing</b> section.
+4. Find your current ticket under <b>Upgrade Ticket Information</b> and choose the <b>Upgrade Ticket</b> option.
+5. Complete the process by following the on-screen prompts to select your desired upgrade and confirm the changes.
+
+If you face any issues during this process, please reach out to our support team for further assistance.
+```
+
 ---
 
 ## 📁 Project Structure
 
 ```text
-Event-Ticketing-SmolLM2-Chatbot/
+Advanced-Event-Ticketing-Customer-Support-Chatbot-SmolLM2/
 │
-├── Data/                       
-│   ├── Bitext-events-ticketing-llm-chatbot-training-dataset.csv
-│   └── extra-large-out-of-domain.csv
+├── Data/                                 # Dataset files
+│   ├── bitext-events-ticketing-dataset.csv
+│   ├── extra-large-out-of-domain.csv
+│   └── processed_training_data.csv
 │
-├── Notebook/                   
-│   └── Event_Ticketing_Chatbot_SmolLM2_1.7B_Instruct.ipynb
+├── Notebook/                             # Training and inference notebooks
+│   └── Event_Ticketing_Chatbot_SmolLM2_FineTuning.ipynb
 │
-├── requirements.txt            
-├── LICENSE                     
-└── README.md                   
+├── model/                                # Saved fine-tuned model
+│   └── HuggingFaceTB-SmolLM2-1.7B-Instruct-finetuned-model
+│
+├── inference.py                          # Final inference script
+├── requirements.txt                      # Project dependencies
+├── LICENSE                               # MIT License
+└── README.md                             # Project documentation
 ```
 
 ---
 
 ## 📄 License
 
-This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
@@ -441,10 +689,11 @@ This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENS
 
 | Resource | Description |
 |----------|-------------|
-| [Hugging Face TB](https://huggingface.co/HuggingFaceTB) | Creators of the SmolLM2 model family |
-| [Bitext](https://huggingface.co/datasets/bitext/Bitext-events-ticketing-llm-chatbot-training-dataset) | High-quality customer support dataset |
-| [Weights & Biases](https://wandb.ai/) | Excellent experiment tracking |
-| [PEFT & TRL](https://github.com/huggingface/peft) | Libraries making fine-tuning accessible |
+| [Hugging Face](https://huggingface.co/) | Model hosting, Transformers ecosystem, and SmolLM2 |
+| [TRL](https://github.com/huggingface/trl) | Supervised fine-tuning trainer |
+| [PEFT](https://github.com/huggingface/peft) | LoRA-based parameter-efficient fine-tuning |
+| [Weights & Biases](https://wandb.ai/) | Experiment tracking |
+| [Bitext](https://huggingface.co/datasets/bitext) | Event ticketing chatbot dataset |
 
 </div>
 
@@ -459,3 +708,9 @@ This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENS
 **Built with ❤️ by [Marpaka Pradeep Sai](https://github.com/MarpakaPradeepSai)**
 
 </div>
+```
+
+If you want, I can also do one more thing for you:
+1. **make this README even closer visually to your previous DistilGPT2 README**, or  
+2. **add a proper badges row for SmolLM2 / LoRA / W&B / Colab**, or  
+3. **prepare a polished GitHub-ready version with your exact repo links filled in**.
