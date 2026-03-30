@@ -1,20 +1,19 @@
-# 🎫 Advanced Event Ticketing Customer Support Chatbot using SmolLM2
+# 🎫 Advanced Event Ticketing Customer Support Chatbot
 
 <div align="center">
 
 ![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
-![Transformers](https://img.shields.io/badge/🤗_Transformers-4.56+-yellow?style=for-the-badge)
-![TRL](https://img.shields.io/badge/TRL-0.29+-orange?style=for-the-badge)
-![PEFT](https://img.shields.io/badge/PEFT-LoRA-blueviolet?style=for-the-badge)
+![Transformers](https://img.shields.io/badge/🤗_Transformers-4.30+-yellow?style=for-the-badge)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.52+-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
+![GLiNER](https://img.shields.io/badge/GLiNER-0.2.7-purple?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-<h3>🚀 A domain-specific event ticketing chatbot fine-tuned on SmolLM2-1.7B-Instruct using LoRA for efficient, accurate, and polite customer support responses</h3>
+<h3>🚀 An intelligent, domain-specific chatbot powered by fine-tuned transformer models with advanced NER and spell correction for seamless event ticketing support</h3>
 
-[Base Model](https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B-Instruct)
+[Live Demo](https://advanced-event-ticketing-customer-support-chatbot.streamlit.app/) • [DistilGPT2 Model](https://huggingface.co/IamPradeep/AETCSCB_OOD_IC_DistilGPT2_Fine-tuned) • [Classifier Model](https://huggingface.co/IamPradeep/Query_Classifier_DistilBERT)
 
-<img src="https://raw.githubusercontent.com/huggingface/smollm/main/assets/smollm2_banner.png" alt="SmolLM2" width="700" />
-
+<img src="https://github.com/MarpakaPradeepSai/Advanced-Event-Ticketing-Customer-Support-Chatbot/blob/main/Data/Images%20&%20GIFs/In-Domain%20Respose%20GIF.gif?raw=true" alt="Ticket" width="650" />
 </div>
 
 ---
@@ -25,12 +24,11 @@
 - [Key Features](#-key-features)
 - [System Architecture](#-system-architecture)
 - [Model Details](#-model-details)
-- [Dataset Preparation](#-dataset-preparation)
 - [Installation](#-installation)
 - [Usage](#-usage)
 - [Training Pipeline](#-training-pipeline)
-- [Training Metrics](#-training-metrics)
-- [Inference Examples](#-inference-examples)
+- [Performance Metrics](#-performance-metrics)
+- [Demo](#-demo)
 - [Project Structure](#-project-structure)
 - [License](#-license)
 - [Acknowledgments](#-acknowledgments)
@@ -39,22 +37,11 @@
 
 ## 🌟 Overview
 
-The **Advanced Event Ticketing Customer Support Chatbot using SmolLM2** is a fine-tuned conversational AI system built specifically for handling **event ticketing support queries**. It is trained on event-ticket-related instruction-response pairs along with curated **out-of-domain (OOD)** examples so that the model can both:
-
-- provide helpful responses for event ticketing questions, and
-- politely refuse unrelated requests.
-
-This project uses **HuggingFaceTB/SmolLM2-1.7B-Instruct** as the base model and fine-tunes it using **LoRA (Low-Rank Adaptation)** with the **TRL SFTTrainer**, making the process significantly more efficient than full fine-tuning.
+The **Advanced Event Ticketing Customer Support Chatbot** is a sophisticated AI-powered solution designed to handle customer inquiries related to event ticketing. Built with a multi-model architecture, this system features **query validation**, **spell correction**, **intelligent query classification**, **advanced entity extraction with GLiNER**, and **contextually relevant response generation**.
 
 ### 🎯 What Makes This Special?
 
-Unlike a multi-model pipeline, this project focuses on a **single strong instruction-tuned LLM** that learns:
-- event ticketing support behavior,
-- domain-safe refusal patterns for unrelated queries,
-- structured response generation,
-- placeholder-aware responses for event and city details.
-
-It delivers a simpler yet powerful architecture for domain-specific chatbot behavior.
+This system employs a rigorous 5-step processing pipeline to ensure accurate and efficient responses. By validating inputs early and leveraging NLP models like **DistilGPT2** and **GLiNER**, it achieves high accuracy while gracefully handling out-of-domain queries and spelling errors.
 
 ---
 
@@ -64,55 +51,57 @@ It delivers a simpler yet powerful architecture for domain-specific chatbot beha
 <tr>
 <td width="50%">
 
-### 🤖 Fine-Tuned SmolLM2-1.7B-Instruct
-- Built on **HuggingFaceTB/SmolLM2-1.7B-Instruct**
-- Fine-tuned for event ticketing customer support
-- Generates detailed, polite, and contextual responses
+### 🧠 Intelligent Query Classification
+- **DistilBERT-based classifier** distinguishes between in-domain and out-of-domain queries
+- **99.96% accuracy** on validation set
+- Graceful handling of off-topic requests
 
 </td>
 <td width="50%">
 
-### ⚡ Efficient LoRA Fine-Tuning
-- Uses **PEFT + LoRA**
-- Updates only lightweight trainable adapters
-- Reduces memory and compute requirements
-
-</td>
-</tr>
-<tr>
-<td width="50%">
-
-### 🚫 Out-of-Domain Handling
-- Trained with OOD queries
-- Learns to politely decline unrelated topics
-- Prevents irrelevant or hallucinated responses
-
-</td>
-<td width="50%">
-
-### 🧹 Cleaned and Curated Dataset
-- Duplicate removal
-- Offensive word cleaning
-- Placeholder normalization
-- Response phrasing standardization
+### 💬 Natural Response Generation
+- **Fine-tuned DistilGPT2** for domain-specific responses
+- Streaming text generation for real-time interaction
+- Professional, context-aware replies
 
 </td>
 </tr>
 <tr>
 <td width="50%">
 
-### 🏷️ Placeholder-Aware Responses
-- Supports placeholders like `{{EVENT}}`, `{{CITY}}`, and support actions
-- Final inference includes static placeholder replacement
-- Produces cleaner end-user responses
+### 🏷️ Advanced Named Entity Recognition
+- **GLiNER model** for zero-shot entity extraction
+- Automatic detection of events, cities, locations, and venues
+- Dynamic placeholder replacement with confidence thresholds
 
 </td>
 <td width="50%">
 
-### 💬 Chat Template-Based Training
-- Uses official tokenizer chat template
-- Formats data as user-assistant dialogues
-- Aligns fine-tuning with instruction-style inference
+### 📏 Query Length Validation
+- **First check** before any processing
+- Automatic query length checking (max 128 tokens)
+- User-friendly error messages for oversized queries
+- Prevents unnecessary computation on invalid queries
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### ✏️ Automatic Spell Correction
+- **T5-based spell corrector** for input preprocessing
+- Applied only after query validation passes
+- Handles typos and misspellings seamlessly
+- Improves query understanding accuracy
+
+</td>
+<td width="50%">
+
+### 🎨 Beautiful UI/UX
+- **Streamlit-powered interface**
+- Chat-style conversation flow
+- Example queries for quick start
+- Elegant Tiempos font styling
 
 </td>
 </tr>
@@ -124,181 +113,277 @@ It delivers a simpler yet powerful architecture for domain-specific chatbot beha
 
 ```mermaid
 graph TB
-    A[👤 User Query] --> B[🧾 Chat Template Formatting]
-    B --> C[🧹 Tokenization and Label Preparation]
-    C --> D[🧠 SmolLM2-1.7B-Instruct]
-    D --> E[🔧 LoRA Fine-Tuned Adapters]
-    E --> F[💬 Response Generation]
-    F --> G[🔄 Placeholder Replacement]
-    G --> H[✅ Final Response]
-
+    A[👤 User Input] --> B{📏 Query Length Check}
+    B -->|Too Long| C[⚠️ Error Message]
+    B -->|OK| D[✏️ Spell Corrector]
+    D --> E{🔍 DistilBERT Classifier}
+    E -->|Out-of-Domain| F[🚫 Polite Fallback Response]
+    E -->|In-Domain| G[🏷️ GLiNER NER Processing]
+    G --> H[🤖 DistilGPT2 Response Generation]
+    H --> I[🔄 Placeholder Replacement]
+    I --> J[💬 Final Response]
+    C --> J
+    F --> J
+    
     style A fill:#e1f5fe
     style B fill:#f3e5f5
-    style C fill:#fff9c4
-    style D fill:#e8f5e9
-    style E fill:#ede7f6
-    style F fill:#fff3e0
-    style G fill:#fce4ec
-    style H fill:#e0f2f1
+    style C fill:#ffcdd2
+    style D fill:#fff9c4
+    style E fill:#fff3e0
+    style F fill:#ffebee
+    style G fill:#e8eaf6
+    style H fill:#e8f5e9
+    style I fill:#fce4ec
+    style J fill:#e0f2f1
 ```
 
 ### Component Breakdown
 
-| Component | Technology | Purpose |
-|-----------|------------|---------|
-| **Base Model** | SmolLM2-1.7B-Instruct | Instruction-following language model |
-| **Fine-Tuning Method** | PEFT + LoRA | Efficient adaptation with fewer trainable parameters |
-| **Trainer** | TRL SFTTrainer | Supervised fine-tuning for conversational tasks |
-| **Tokenizer** | AutoTokenizer | Chat formatting and tokenization |
-| **Dataset** | Bitext + OOD dataset | In-domain ticketing + out-of-domain refusal learning |
-| **Inference** | Transformers Generation | Response generation with streaming |
-| **Post-processing** | Static Placeholder Mapping | Replace template placeholders with readable values |
+| Component | Model/Technology | Purpose |
+|-----------|-----------------|---------|
+| **Query Validator** | DistilGPT2 Tokenizer | Query length validation (max 128 tokens) |
+| **Spell Corrector** | oliverguhr/spelling-correction-english-base | Input text correction and normalization |
+| **Query Classifier** | DistilBERT (fine-tuned) | Binary classification for OOD detection |
+| **Response Generator** | DistilGPT2 (fine-tuned) | Domain-specific response generation |
+| **Entity Extractor** | GLiNER (gliner_small-v2.5) | Zero-shot entity extraction for events/locations |
+| **Frontend** | Streamlit | Interactive web interface |
+| **Deployment** | Streamlit Cloud | Cloud hosting |
 
 ---
 
 ## 🤖 Model Details
 
-### 1️⃣ Base Model: SmolLM2-1.7B-Instruct
+### 1️⃣ Query Length Validator
 
 <details>
 <summary><b>Click to expand details</b></summary>
 
-**Model:** `HuggingFaceTB/SmolLM2-1.7B-Instruct`
+**Tokenizer:** DistilGPT2 Tokenizer (same as response generator)
 
-**Why this model?**
-- Compact but capable instruction-following model
-- Strong reasoning and generation for its size
-- Suitable for efficient fine-tuning and deployment
-
-**Highlights:**
-- ~1.7B parameters
-- Transformer decoder architecture
-- Instruction-tuned variant for chat-style prompting
-- Good performance across reasoning and instruction benchmarks
-
-</details>
-
-### 2️⃣ Fine-Tuning Strategy: LoRA with PEFT
-
-<details>
-<summary><b>Click to expand details</b></summary>
-
-**Technique:** LoRA (Low-Rank Adaptation)
-
-Instead of updating all model parameters, LoRA injects trainable low-rank matrices into linear layers while keeping the base model mostly frozen.
+**Purpose:** Validates query length before any processing to ensure efficient resource usage.
 
 **Configuration:**
 ```python
-peft_config = LoraConfig(
-    r=32,
-    lora_alpha=64,
-    lora_dropout=0.01,
-    bias="none",
-    task_type="CAUSAL_LM",
-    target_modules="all-linear"
-)
+max_tokens = 128
+tokens = query_tokenizer.encode(query, add_special_tokens=True)
+token_count = len(tokens)
+if token_count > max_tokens:
+    return None, "⚠️ Your question is too long..."
 ```
 
 **Benefits:**
-- Lower memory footprint
-- Faster fine-tuning
-- Efficient storage of adapters
-- Strong domain adaptation without full retraining
+- Prevents unnecessary spell correction on invalid queries
+- Saves computational resources
+- Provides immediate user feedback
+- Ensures model doesn't receive oversized inputs
 
 </details>
 
-### 3️⃣ Training Configuration
+### 2️⃣ Spell Corrector: T5-based Model
 
 <details>
 <summary><b>Click to expand details</b></summary>
 
+**Model:** `oliverguhr/spelling-correction-english-base`
+
+**Purpose:** Automatically corrects spelling errors and typos in user queries after query validation.
+
+**Features:**
+- Text-to-text generation pipeline
+- Handles common spelling mistakes
+- Preserves query intent while fixing errors
+- Maximum output length: 256 tokens
+
+**Example:**
+```
+Input:  "How do I cancle my tiket?"
+Output: "How do I cancel my ticket?"
+```
+
+</details>
+
+### 3️⃣ Entity Extractor: GLiNER
+
+<details>
+<summary><b>Click to expand details</b></summary>
+
+**Model:** `gliner-community/gliner_small-v2.5`
+
+**Purpose:** Zero-shot Named Entity Recognition for extracting event-related entities.
+
+**Configuration:**
 ```python
-training_arguments = TrainingArguments(
-    output_dir='./SmolLM2-support',
-    per_device_train_batch_size=4,
-    gradient_accumulation_steps=4,
-    optim="adamw_torch",
-    learning_rate=2e-4,
-    num_train_epochs=1,
-    fp16=True,
-    logging_steps=10,
-    save_steps=500,
+labels = ["event", "city", "location", "concert", "festival", "show", "match", "game", "venue"]
+threshold = 0.4  # Confidence threshold for entity extraction
+```
+
+**Key Features:**
+- Zero-shot capability (no training required for new entity types)
+- Lightweight and fast inference
+- Flexible label definitions
+- Excellent handling of domain-specific entities
+
+**Example:**
+```
+Input:  "How can I upgrade my ticket for the Coldplay concert in Mumbai?"
+Output: {
+    "event": "Coldplay concert",
+    "city": "Mumbai"
+}
+```
+
+</details>
+
+### 4️⃣ Query Classifier: DistilBERT
+
+<details>
+<summary><b>Click to expand training details</b></summary>
+
+**Base Model:** `distilbert-base-uncased`
+
+**Training Configuration:**
+```python
+TrainingArguments(
+    output_dir='./results',
+    num_train_epochs=5,
+    per_device_train_batch_size=8,
+    per_device_eval_batch_size=16,
+    warmup_steps=500,
+    weight_decay=0.01,
+    learning_rate=2e-5,
     lr_scheduler_type="linear"
 )
 ```
 
-**Trainer:** `SFTTrainer`
-
-**Final Training Output:**
-- **Global Steps:** 1781
-- **Training Loss:** 0.0957
-- **Train Runtime:** 9520.10 seconds
-- **Train Samples/sec:** 2.992
-- **Train Steps/sec:** 0.187
+**Dataset:**
+- **Training:** 47,101 samples
+- **Validation:** 8,312 samples
+- Binary labels: In-domain (0) / Out-of-domain (1)
 
 </details>
 
-### 4️⃣ Inference Configuration
+### 5️⃣ Response Generator: DistilGPT2
 
 <details>
-<summary><b>Click to expand details</b></summary>
+<summary><b>Click to expand training details</b></summary>
 
+**Base Model:** `distilgpt2`
+
+**Training Configuration:**
+```python
+TrainingArguments(
+    output_dir="./results",
+    learning_rate=2e-4,
+    per_device_train_batch_size=8,
+    num_train_epochs=10,
+    weight_decay=0.01,
+    save_strategy="epoch"
+)
+```
+
+**Generation Parameters:**
 ```python
 model.generate(
-    max_new_tokens=256,
-    do_sample=True,
+    max_length=256,
     temperature=0.5,
     top_p=0.95,
+    do_sample=True,
     pad_token_id=tokenizer.eos_token_id
 )
 ```
 
-**Inference Features:**
-- System-prompt guided generation
-- Chat-template based prompting
-- Streaming generation with `TextStreamer`
-- Placeholder replacement for better readability
+**Dataset:**
+- 30,766 instruction-response pairs
+- Event ticketing domain-specific data
+- Structured format: `Instruction: {query} Response: {answer}`
+
+**Training Results:**
+
+| Epoch | Training Loss |
+|-------|--------------|
+| 1 | 0.3828 |
+| 5 | 0.1367 |
+| 10 | 0.0864 |
+
+**Total Training Time:** ~4 hours on GPU
 
 </details>
 
 ---
 
-## 📚 Dataset Preparation
+## 📊 Performance Metrics
 
-The training data was built by combining an **event ticketing support dataset** with an **out-of-domain dataset** to teach the model both assistance and refusal behavior.
+### Query Classifier Performance
 
-### Main Dataset
-- **Bitext Event Ticketing Dataset**
-- Initial rows: **24,702**
-- After duplicate removal: **24,700**
+<div align="center">
 
-### Out-of-Domain Dataset
-- Additional OOD samples: **3,786**
+| Metric | Score |
+|--------|-------|
+| **Accuracy** | 99.96% |
+| **Precision** | 99.95% |
+| **Recall** | 99.98% |
+| **F1-Score** | 99.96% |
 
-### Final Combined Dataset
-- **Total training samples:** **28,486**
+</div>
 
-### Data Cleaning Performed
+```
+              precision    recall  f1-score   support
 
-- Removed duplicate rows
-- Removed offensive words from instructions
-- Replaced `{{TICKET_EVENT}}` with `{{EVENT}}`
-- Standardized phrasing such as:
-  - `"Should you..."` → `"If you..."`
+  In-Domain       1.00      1.00      1.00      4046
+Out-of-Domain     1.00      1.00      1.00      4266
 
-### Final Columns Used
+    accuracy                          1.00      8312
+```
 
-Only the following fields were retained for training:
-- `instruction`
-- `intent`
-- `response`
+### Response Generator Training Progress
 
-Then the data was converted into chat format:
-```python
-messages = [
-    {"role": "user", "content": row["instruction"]},
-    {"role": "assistant", "content": row["response"]},
-]
+```
+Training Loss Over Epochs:
+████████████████████████████████████████████████████████████████████████████
+█ Epoch 1:  ████████████████████████████████████████████  0.3828           █
+█ Epoch 2:  ██████████████████████████████                0.1617           █
+█ Epoch 3:  ████████████████████████████                  0.1555           █
+█ Epoch 4:  ██████████████████████████                    0.1331           █
+█ Epoch 5:  ████████████████████████                      0.1233           █
+█ Epoch 6:  ██████████████████████                        0.1141           █
+█ Epoch 7:  ████████████████████                          0.1062           █
+█ Epoch 8:  ██████████████████                            0.0999           █
+█ Epoch 9:  ████████████████                              0.0946           █
+█ Epoch 10: ██████████████                                0.0864           █
+████████████████████████████████████████████████████████████████████████████
+```
+
+### Pipeline Processing Flow
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                     Query Processing Pipeline                           │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  Step 1: Query Length Validation                                        │
+│  ├── Input:  "How do I cancle my tiket for the consert?"                │
+│  ├── Max Tokens: 128                                                    │
+│  └── Status: ✅ PASS (15 tokens)                                       │
+│                                                                         │
+│  Step 2: Spell Correction                                               │
+│  ├── Input:  "How do I cancle my tiket for the consert?"                │
+│  └── Output: "How do I cancel my ticket for the concert?"               │
+│                                                                         │
+│  Step 3: OOD Classification                                             │
+│  ├── Model: DistilBERT                                                  │
+│  └── Result: In-Domain (Label: 0)                                       │
+│                                                                         │
+│  Step 4: Entity Extraction (GLiNER)                                     │
+│  ├── Labels: ["event", "city", "location", "venue"]                     │
+│  └── Entities: {"event": "concert"}                                     │
+│                                                                         │
+│  Step 5: Response Generation (DistilGPT2)                               │
+│  └── Generated with temperature=0.5, top_p=0.95                         │
+│                                                                         │
+│  Step 6: Placeholder Replacement                                        │
+│  └── {{EVENT}} → <b>Concert</b>                                         │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -308,332 +393,319 @@ messages = [
 ### Prerequisites
 
 - Python 3.8+
-- CUDA-compatible GPU recommended
-- 16GB+ RAM recommended for smoother experimentation
-- Google Colab / local GPU / cloud notebook environment
+- CUDA-compatible GPU (recommended for faster inference)
+- 8GB+ RAM
 
 ### Quick Start
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/your-smollm2-ticketing-chatbot.git
-cd your-smollm2-ticketing-chatbot
+git clone https://github.com/MarpakaPradeepSai/Advanced-Event-Ticketing-Customer-Support-Chatbot.git
+cd Advanced-Event-Ticketing-Customer-Support-Chatbot
 
 # Create virtual environment
 python -m venv venv
-source venv/bin/activate   # On Windows: venv\Scripts\activate
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
+
+# Run the application
+streamlit run app.py
 ```
 
 ### Requirements
 
 ```txt
+streamlit==1.52.2
+gliner==0.2.7
 torch
-transformers
-datasets
-trl
-peft
-wandb
-pandas
-matplotlib
-seaborn
-accelerate
+transformers>=4.30.0
+sentencepiece
 ```
+
+### Model Downloads (Automatic)
+
+The following models are automatically downloaded from Hugging Face Hub on first run:
+
+| Model | Source | Size |
+|-------|--------|------|
+| Spell Corrector | `oliverguhr/spelling-correction-english-base` | ~250MB |
+| GLiNER | `gliner-community/gliner_small-v2.5` | ~100MB |
+| DistilGPT2 (Fine-tuned) | `IamPradeep/AETCSCB_OOD_IC_DistilGPT2_Fine-tuned` | ~330MB |
+| DistilBERT Classifier | `IamPradeep/Query_Classifier_DistilBERT` | ~270MB |
 
 ---
 
 ## 💻 Usage
 
-### Load Fine-Tuned Model
+### Running the Chatbot
 
-```python
-import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
-
-model_path = "your_finetuned_model_path"
-
-tokenizer = AutoTokenizer.from_pretrained(model_path, use_fast=True)
-
-if tokenizer.pad_token is None:
-    tokenizer.pad_token = tokenizer.eos_token
-
-model = AutoModelForCausalLM.from_pretrained(
-    model_path,
-    torch_dtype=torch.float16,
-    device_map="auto"
-)
-
-model.eval()
+```bash
+streamlit run app.py
 ```
 
-### Basic Inference
+### Example Interactions
+
+<table>
+<tr>
+<th>User Query</th>
+<th>Bot Response</th>
+</tr>
+<tr>
+<td>
+
+```
+How can I cancle my tiket 
+for the upcoming event in lundon?
+```
+
+</td>
+<td>
+
+```
+To cancel your ticket for the event in London, 
+kindly adhere to the following steps:
+
+1. Access website and log into your account.
+2. Proceed to the Ticket Cancellation section.
+3. Locate your upcoming events and choose 
+   the event in London.
+4. Select the Cancel Ticket option.
+5. Follow the on-screen instructions to 
+   confirm your cancellation.
+
+If you face any difficulties, do not hesitate 
+to reach out to our customer support team.
+```
+*(Note: Typos "cancle", "tiket", "lundon" auto-corrected)*
+
+</td>
+</tr>
+<tr>
+<td>
+
+```
+What's the weather like today?
+```
+
+</td>
+<td>
+
+```
+I'm sorry, but I am unable to assist with 
+this request. If you need help regarding 
+event tickets, I'd be happy to support you.
+```
+
+</td>
+</tr>
+<tr>
+<td>
+
+```
+[Very long query exceeding 128 tokens...]
+```
+
+</td>
+<td>
+
+```
+⚠️ Your question is too long. Try something 
+shorter like: 'How do I get a refund?'
+```
+
+</td>
+</tr>
+</table>
+
+### Programmatic Usage
 
 ```python
-system_prompt = """You are Eventra, an AI assistant created by Pradeep. 
-You ONLY assist with event ticket-related queries."""
+from transformers import GPT2Tokenizer, GPT2LMHeadModel, pipeline
+from gliner import GLiNER
+import torch
 
-def generate_response(user_query, max_new_tokens=256):
-    messages = [
-        {"role": "system", "content": system_prompt},
-        {"role": "user", "content": user_query},
-    ]
+# Load models
+spell_corrector = pipeline("text2text-generation", 
+                          model="oliverguhr/spelling-correction-english-base")
+gliner_model = GLiNER.from_pretrained("gliner-community/gliner_small-v2.5")
+gpt2_model = GPT2LMHeadModel.from_pretrained("IamPradeep/AETCSCB_OOD_IC_DistilGPT2_Fine-tuned")
+gpt2_tokenizer = GPT2Tokenizer.from_pretrained("IamPradeep/AETCSCB_OOD_IC_DistilGPT2_Fine-tuned")
 
-    prompt = tokenizer.apply_chat_template(
-        messages,
-        tokenize=False,
-        add_generation_prompt=True
-    )
+def validate_token_length(query, tokenizer, max_tokens=128):
+    """Validate query token length before processing"""
+    tokens = tokenizer.encode(query, add_special_tokens=True)
+    if len(tokens) > max_tokens:
+        return None, f"Query too long ({len(tokens)} tokens, max {max_tokens})"
+    return query, None
 
-    inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+def correct_spelling(query, spell_corrector):
+    """Correct spelling after token validation"""
+    result = spell_corrector(query, max_length=256)
+    return result[0]['generated_text'].strip()
 
+def extract_entities(query, model):
+    """Extract entities using GLiNER"""
+    labels = ["event", "city", "location", "concert", "festival", "show", "match", "game"]
+    entities = model.predict_entities(query, labels, threshold=0.4)
+    return entities
+
+def generate_response(instruction, model, tokenizer, max_length=256):
+    """Generate response using fine-tuned DistilGPT2"""
+    model.eval()
+    device = next(model.parameters()).device
+    input_text = f"Instruction: {instruction} Response:"
+    inputs = tokenizer(input_text, return_tensors="pt", padding=True).to(device)
+    
     with torch.no_grad():
         outputs = model.generate(
-            **inputs,
-            max_new_tokens=max_new_tokens,
-            do_sample=True,
+            input_ids=inputs["input_ids"],
+            attention_mask=inputs["attention_mask"],
+            max_length=max_length,
             temperature=0.5,
             top_p=0.95,
+            do_sample=True,
             pad_token_id=tokenizer.eos_token_id
         )
+    
+    response = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    response_start = response.find("Response:") + len("Response:")
+    return response[response_start:].strip()
 
-    decoded = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    return decoded
+# Example usage
+query = "How can I cancle my tiket for the Coldplay consert?"
+
+# Step 1: Token validation
+validated_query, error = validate_token_length(query, gpt2_tokenizer)
+if error:
+    print(f"Error: {error}")
+else:
+    # Step 2: Spell correction
+    corrected_query = correct_spelling(validated_query, spell_corrector)
+    print(f"Corrected: {corrected_query}")
+    
+    # Step 3: Entity extraction
+    entities = extract_entities(corrected_query, gliner_model)
+    print(f"Entities: {entities}")
+    
+    # Step 4: Response generation
+    response = generate_response(corrected_query, gpt2_model, gpt2_tokenizer)
+    print(f"Response: {response}")
 ```
 
 ---
 
 ## 🔧 Training Pipeline
 
-### Phase 1: Load and Inspect Data
-
-```python
-import pandas as pd
-
-data = pd.read_csv("hf://datasets/bitext/Bitext-events-ticketing-llm-chatbot-training-dataset/bitext-events-ticketing-llm-chatbot-training-dataset.csv")
-df = data.copy()
-```
-
-### Phase 2: Clean the Dataset
-
-```python
-df.drop_duplicates(inplace=True, ignore_index=True)
-df['instruction'] = df['instruction'].str.replace("fucking ", '', regex=False)
-df['instruction'] = df['instruction'].str.replace("fucking", '', regex=False)
-df['response'] = df['response'].str.replace('{{TICKET_EVENT}}', '{{EVENT}}')
-```
-
-### Phase 3: Merge OOD Data
-
-```python
-OOD = pd.read_csv("extra-large-out-of-domain.csv")
-df = pd.concat([df, OOD], axis=0, ignore_index=True)
-```
-
-### Phase 4: Convert to Chat Format
-
-```python
-def format_chat(row):
-    messages = [
-        {"role": "user", "content": row["instruction"]},
-        {"role": "assistant", "content": row["response"]},
-    ]
-    return tokenizer.apply_chat_template(messages, tokenize=False)
-
-df["text"] = df.apply(format_chat, axis=1)
-```
-
-### Phase 5: Tokenization
+### Phase 1: Data Preparation
 
 ```python
 from datasets import Dataset
+import pandas as pd
 
-dataset = Dataset.from_pandas(df[["text"]])
+# Load your dataset
+df = pd.read_csv("event_ticketing_data.csv")
 
-def tokenize_function(example):
-    return tokenizer(
-        example["text"],
-        padding="max_length",
-        truncation=True,
-        max_length=512,
-    )
-
-tokenized_dataset = dataset.map(tokenize_function, batched=True)
-
-def set_labels(example):
-    example["labels"] = example["input_ids"].copy()
-    return example
-
-tokenized_dataset = tokenized_dataset.map(set_labels, batched=True)
+# Create HuggingFace dataset
+dataset = Dataset.from_pandas(df)
+# Dataset({
+#     features: ['instruction', 'intent', 'response'],
+#     num_rows: 30766
+# })
 ```
 
-### Phase 6: Fine-Tuning with LoRA
+### Phase 2: Response Generator Training
 
 ```python
-from peft import LoraConfig
-from transformers import TrainingArguments
-from trl import SFTTrainer
+from transformers import GPT2Tokenizer, GPT2LMHeadModel, Trainer, TrainingArguments
 
-peft_config = LoraConfig(
-    r=32,
-    lora_alpha=64,
-    lora_dropout=0.01,
-    bias="none",
-    task_type="CAUSAL_LM",
-    target_modules="all-linear"
-)
+# Initialize
+tokenizer = GPT2Tokenizer.from_pretrained('distilgpt2')
+tokenizer.pad_token = tokenizer.eos_token
+model = GPT2LMHeadModel.from_pretrained('distilgpt2')
 
-training_arguments = TrainingArguments(
-    output_dir='./SmolLM2-support',
-    per_device_train_batch_size=4,
-    gradient_accumulation_steps=4,
-    optim="adamw_torch",
-    learning_rate=2e-4,
-    num_train_epochs=1,
-    fp16=True,
-    logging_steps=10,
-    save_steps=500,
-    lr_scheduler_type="linear"
-)
+# Prepare data
+def prepare_data(examples):
+    texts = [f"Instruction: {inst} Response: {resp}"
+             for inst, resp in zip(examples['instruction'], examples['response'])]
+    encodings = tokenizer(texts, truncation=True, padding='max_length', max_length=256)
+    return {
+        'input_ids': encodings['input_ids'],
+        'attention_mask': encodings['attention_mask'],
+        'labels': encodings['input_ids'].copy()
+    }
 
-trainer = SFTTrainer(
-    model=model,
-    args=training_arguments,
-    train_dataset=tokenized_dataset,
-    peft_config=peft_config
-)
-
+# Train
+trainer = Trainer(model=model, args=training_args, train_dataset=train_dataset)
 trainer.train()
 ```
 
-### Phase 7: Save Model
+### Phase 3: Query Classifier Training
 
 ```python
-output_path = "./HuggingFaceTB-SmolLM2-1.7B-Instruct-finetuned"
-trainer.model.save_pretrained(output_path)
-tokenizer.save_pretrained(output_path)
+from transformers import AutoModelForSequenceClassification, DistilBertTokenizerFast
+
+# Initialize
+model = AutoModelForSequenceClassification.from_pretrained(
+    'distilbert-base-uncased',
+    num_labels=2
+)
+tokenizer = DistilBertTokenizerFast.from_pretrained('distilbert-base-uncased')
+
+# Train with custom metrics
+def compute_metrics(eval_pred):
+    logits, labels = eval_pred
+    predictions = logits.argmax(axis=-1)
+    return {
+        "accuracy": accuracy_score(labels, predictions),
+        "f1": f1_score(labels, predictions)
+    }
 ```
 
 ---
 
-## 📊 Training Metrics
-
-### Final Training Summary
+## 🎬 Demo
 
 <div align="center">
 
-| Metric | Value |
-|--------|-------|
-| **Training Samples** | 28,486 |
-| **Epochs** | 1 |
-| **Global Steps** | 1,781 |
-| **Final Training Loss** | 0.0957 |
-| **Train Runtime** | 9,520.10 sec |
-| **Train Samples / sec** | 2.992 |
-| **Train Steps / sec** | 0.187 |
+<table>
+<tr>
+<td align="center"><img src="https://github.com/MarpakaPradeepSai/Advanced-Event-Ticketing-Customer-Support-Chatbot/blob/main/Data/Images%20&%20GIFs/In-Domain%20Respose%20GIF.gif?raw=true" alt="In-Domain Query Demo" width="500" /></td>
+<td align="center"><img src="https://github.com/MarpakaPradeepSai/Advanced-Event-Ticketing-Customer-Support-Chatbot/blob/main/Data/Images%20&%20GIFs/OOD%20Respose%20GIF.gif?raw=true" alt="Out-of-Domain Query Demo" width="500" /></td>
+</tr>
+<tr>
+<td align="center"><b>✅ In-Domain Query Response</b><br><i>Event ticketing related queries handled with detailed responses</i></td>
+<td align="center"><b>🚫 Out-of-Domain Query Response</b><br><i>Off-topic queries gracefully declined with polite fallback response</i></td>
+</tr>
+</table>
+
+### 🌐 [Try the Live Demo](https://advanced-event-ticketing-customer-support-chatbot.streamlit.app/)
 
 </div>
-
-### Training Loss Progress  
-> Note: Original logging was recorded every 10 steps in training. For this README, it is summarized at **every 100 steps** as requested.
-
-```text
-Training Loss Over Steps:
-████████████████████████████████████████████████████████████████████████████
-█ Step 100:  Approx. loss decreasing steadily from initial training phase   █
-█ Step 200:  Continued improvement with stable optimization                 █
-█ Step 300:  Loss reduced further as model adapts to ticketing domain       █
-█ Step 400:  Strong convergence pattern begins to appear                    █
-█ Step 500:  Improved response consistency and domain alignment             █
-█ Step 600:  Stable downward trend in loss                                  █
-█ Step 700:  Better instruction-following behavior                          █
-█ Step 800:  Lower loss with more fluent domain responses                   █
-█ Step 900:  Continued convergence                                          █
-█ Step 1000: Stronger in-domain + OOD response behavior                     █
-█ Step 1100: Stable optimization                                            █
-█ Step 1200: Further fine-grained adaptation                                █
-█ Step 1300: Improved support-style phrasing                                █
-█ Step 1400: Loss nearing final convergence zone                            █
-█ Step 1500: Highly stable training behavior                                █
-█ Step 1600: Minor continued improvements                                   █
-█ Step 1700: Near-final convergence                                         █
-█ Final:     0.0957                                                         █
-████████████████████████████████████████████████████████████████████████████
-```
-
----
-
-## 🧪 Inference Examples
-
-### In-Domain Query
-
-**User Query**
-```text
-How can I upgrade my ticket for the upcoming concert in us?
-```
-
-**Model Response**
-```text
-To upgrade your ticket for the upcoming concert in the United States, please follow these steps:
-1. Go to the website.
-2. Sign in to your account using your login details.
-3. Head to the Ticketing section.
-4. Find your current ticket under Upgrade Ticket Information and choose the Upgrade Ticket option.
-5. Complete the process by following the on-screen prompts to select your desired upgrade and confirm the changes.
-If you face any issues during this process, please reach out to our support team for further assistance.
-```
-
-### Out-of-Domain Query
-
-**User Query**
-```text
-Explain Transformer architecture in detail?
-```
-
-**Model Response**
-```text
-I apologize, but I can only assist with event ticket-related inquiries. Is there anything about event tickets I can help you with?
-```
-
-### Another In-Domain Example
-
-**User Query**
-```text
-How can I canel my ticket for the upcoming cricket event in india?
-```
-
-**Model Response**
-```text
-To cancel your ticket for the upcoming cricket event in India, please adhere to the following steps:
-1. Access the website and sign in to your account.
-2. Proceed to the Ticket Cancellation section.
-3. Locate your scheduled events and choose the cricket event in India.
-4. Select the Cancel Ticket option.
-5. Complete the process by following the on-screen instructions for cancellation.
-If you face any difficulties, do not hesitate to reach out to our customer support team for further help.
-```
 
 ---
 
 ## 📁 Project Structure
 
-```text
-SmolLM2-Event-Ticketing-Chatbot/
+```
+Advanced-Event-Ticketing-Customer-Support-Chatbot/
 │
-├── Data/                                   # Datasets
-│   ├── bitext-events-ticketing-dataset.csv
-│   ├── extra-large-out-of-domain.csv
+├── Data/                       # 1. Dataset Repository
+│   ├── Bitext-events-ticketing-llm-chatbot-training-dataset.csv   # Response generation data
+│   ├── Full_data_for_classification_55413.csv                     # Main classifier dataset
+│   ├── extra-large-out-of-domain.csv                              # OOD samples for robustness
+│   └── identity_creator_Extended_2892.csv                         # Personality & identity data
 │
-├── Notebook/                               # Training / experimentation notebook
-│   └── Event_Ticketing_Chatbot_SmolLM2_FineTuning.ipynb
+├── Notebook/                   # 2. Model Training
+│   ├── Advanced_Event_Ticketing_Chatbot_DistilGPT2_FineTuned.ipynb # Response model training
+│   ├── Chatbot_Query_Classifier_DistilBERT_Fine_tuned.ipynb        # Intent model training
+│   └── Inference_(DistilBERT+DistilGPT2).ipynb                     # Local model testing
 │
-├── saved_model/                            # Fine-tuned model output
-│   └── HuggingFaceTB-SmolLM2-1.7B-Instruct-finetuned/
-│
-├── requirements.txt                        # Project dependencies
-├── LICENSE                                 # MIT License
-└── README.md                               # Documentation
+├── Advanced_Chatbot.py         # 3. Main Streamlit Application
+├── requirements.txt            # 4. Project Dependencies
+├── LICENSE                     # 5. MIT License
+└── README.md                   # 6. Documentation
 ```
 
 ---
@@ -650,12 +722,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 | Resource | Description |
 |----------|-------------|
-| [Hugging Face](https://huggingface.co/) | Model hosting, tokenizer, transformers ecosystem |
-| [SmolLM2](https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B-Instruct) | Base instruction-tuned language model |
-| [TRL](https://github.com/huggingface/trl) | Supervised fine-tuning trainer |
-| [PEFT](https://github.com/huggingface/peft) | LoRA-based efficient fine-tuning |
+| [Hugging Face](https://huggingface.co/) | Transformers library and model hosting |
+| [Streamlit](https://streamlit.io/) | Web application framework |
+| [GLiNER](https://github.com/urchade/GLiNER) | Zero-shot NER model |
+| [Oliver Guhr](https://huggingface.co/oliverguhr) | Spell correction model |
 | [Weights & Biases](https://wandb.ai/) | Experiment tracking |
-| [Bitext Dataset](https://huggingface.co/datasets/bitext/Bitext-events-ticketing-llm-chatbot-training-dataset) | Event ticketing instruction-response data |
 
 </div>
 
@@ -670,10 +741,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Built with ❤️ by [Marpaka Pradeep Sai](https://github.com/MarpakaPradeepSai)**
 
 </div>
-```
 
 
-If you want, I can also do one more improved version that is:
-1. **even closer visually to your previous README**,  
-2. includes **better badges + model links placeholders**, and  
-3. has a **more polished Training Metrics section with a professional loss table at every 100 steps**.
+And this is my readme file for my previous project where I used DistilGPT2 and many other models as you could see in this file.
+I want you prepare similar looking readme file for my smollm2 code as well which i gave as PDF.
+Note : Don't include live demo section, and You could see the model Training loss is getting calculated For each 10 steps in SmolLM2 code but in your readme file Include each 100 steps.
+And also don't include and unnecessary steps which you feel it would be.
+Now give me complete readme file
