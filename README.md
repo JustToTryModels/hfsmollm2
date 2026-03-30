@@ -1,4 +1,3 @@
-```markdown
 # 🎫 Advanced Event Ticketing Customer Support Chatbot using SmolLM2-1.7B-Instruct
 
 <div align="center">
