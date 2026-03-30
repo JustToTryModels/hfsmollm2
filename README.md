@@ -1,7 +1,3 @@
-Here is the complete `README.md` file tailored for your **SmolLM2-1.7B-Instruct** fine-tuning project, matching the professional styling and structure of your previous DistilGPT2 project.
-
-***
-
 # 🎫 Event Ticketing Customer Support Chatbot (SmolLM2-1.7B)
 
 <div align="center">
