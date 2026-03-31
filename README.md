@@ -1,4 +1,6 @@
-# Fine-Tuning a Pre-Trained Language Model with LoRA
+<p align="center">
+  Fine-tune a pre-trained LLM using LoRA (PEFT) with an end-to-end training and inference pipeline.
+</p>
 
 This project demonstrates how to **fine-tune a pre-trained instruction model** using **Supervised Fine-Tuning (SFT)** and **LoRA (Low-Rank Adaptation)** for efficient and scalable domain adaptation.
 
