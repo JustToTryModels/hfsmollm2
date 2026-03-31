@@ -208,14 +208,6 @@ This repository is a strong reference for:
 
 ---
 
-## 📚 Resources
-
-* [https://arxiv.org/abs/2106.09685](https://arxiv.org/abs/2106.09685) (LoRA Paper)
-* [https://huggingface.co/docs/peft](https://huggingface.co/docs/peft)
-* [https://huggingface.co/docs/trl](https://huggingface.co/docs/trl)
-
----
-
 ## 🙌 Acknowledgements
 
 * Hugging Face
@@ -225,7 +217,7 @@ This repository is a strong reference for:
 
 ## 📄 License
 
-Apache 2.0
+This project is licensed under the MIT License.
 
 ---
 
