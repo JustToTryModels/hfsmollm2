@@ -1,7 +1,6 @@
-<p align="center">
-  Fine-tune a pre-trained LLM using LoRA (PEFT) with an end-to-end training and inference pipeline.
-</p>
-
+<div align="center"> 
+# 📚 Book Recommendation System 
+</div>
 This project demonstrates how to **fine-tune a pre-trained instruction model** using **Supervised Fine-Tuning (SFT)** and **LoRA (Low-Rank Adaptation)** for efficient and scalable domain adaptation.
 
 Built on top of **`HuggingFaceTB/SmolLM2-1.7B-Instruct`**, this repository provides a **practical, end-to-end pipeline** covering data preparation, formatting, training, and inference.
